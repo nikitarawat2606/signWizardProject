@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Signup Wizard | Frontend Engineering Assessment</title>
+    <link rel="stylesheet" href="../CSS/styles.css">
+</head>
+<body>
+
+    <main class="app-viewport">
+        <!-- Global Toast / Banner Notification Layer -->
+        <aside id="toastBanner" class="toast-banner hidden" role="alert" aria-live="polite"></aside>
+
+        <!-- Container Card mimicking Mobile App / Modern Web View -->
+        <section class="wizard-card">
+            
+            <!-- STEP 0: LANDING / WELCOME -->
+            <div id="screen-welcome" class="wizard-screen active">
+                <div class="brand-badge">Enterprise Auth</div>
+                <h1>Get Started</h1>
+                <p class="subtitle">Secure, fast, and seamless multi-step onboarding experience.</p>
+                <button type="button" class="btn btn-primary" onclick="WizardApp.navigateTo('screen-terms')">
+                    Get Started ➔
+                </button>
+            </div>
+
+            <!-- STEP 0.5: TERMS & CONDITIONS -->
+            <div id="screen-terms" class="wizard-screen">
+                <h2>Terms & Conditions</h2>
+                <p class="subtitle">Please review our usage agreement.</p>
+                
+                <div class="terms-container" tabindex="0">
+                    <p><strong>1. Data Protection:</strong> We encrypt and secure your data under industrial compliance protocols.</p>
+                    <p><strong>2. Account Security:</strong> You are responsible for keeping your credentials confidential.</p>
+                    <p><strong>3. Age & Compliance:</strong> Accurate profile data is mandatory. Users under 18 must have supervisory consent.</p>
+                </div>
+
+                <div class="checkbox-wrapper">
+                    <input type="checkbox" id="termsCheckbox" onchange="WizardApp.handleTermsToggle()">
+                    <label for="termsCheckbox">I agree to the Terms and Conditions</label>
+                </div>
+
+                <div class="btn-group">
+                    <button type="button" class="btn btn-secondary" onclick="WizardApp.navigateTo('screen-welcome')">Back</button>
+                    <button type="button" id="termsNextBtn" class="btn btn-primary" disabled onclick="WizardApp.navigateTo('screen-step1')">Continue</button>
+                </div>
+            </div>
+
+            <!-- STEP 1: CREDENTIALS (EMAIL & PASSWORD) -->
+            <div id="screen-step1" class="wizard-screen">
+                <h2>Account Credentials</h2>
+                <p class="subtitle">Step 1 of 4: Setup your login details.</p>
+
+                <div class="form-control">
+                    <label for="email">Email Address</label>
+                    <input type="email" id="email" placeholder="name@company.com" autocomplete="email" oninput="WizardApp.validateStep1()">
+                    <span id="emailError" class="error-msg"></span>
+                </div>
+
+                <div class="form-control">
+                    <label for="password">Password</label>
+                    <input type="password" id="password" placeholder="Min. 8 characters" autocomplete="new-password" oninput="WizardApp.validateStep1()">
+                    <span id="passwordError" class="error-msg"></span>
+                </div>
+
+                <div class="btn-group">
+                    <button type="button" class="btn btn-secondary" onclick="WizardApp.navigateTo('screen-terms')">Back</button>
+                    <button type="button" id="step1NextBtn" class="btn btn-primary" disabled onclick="WizardApp.navigateTo('screen-step2')">Next</button>
+                </div>
+            </div>
+
+            <!-- STEP 2: PROFILE DETAILS & AGE VALIDATION EDGE-CASE -->
+            <div id="screen-step2" class="wizard-screen">
+                <h2>Personal Information</h2>
+                <p class="subtitle">Step 2 of 4: Tell us who you are.</p>
+
+                <div class="form-control">
+                    <label for="fullName">Full Name</label>
+                    <input type="text" id="fullName" placeholder="e.g. Alex Morgan" oninput="WizardApp.validateStep2()">
+                    <span id="nameError" class="error-msg"></span>
+                </div>
+
+                <div class="form-control">
+                    <label for="age">Age</label>
+                    <input type="number" id="age" placeholder="Enter your age" min="1" max="120" oninput="WizardApp.validateStep2()">
+                    <span id="ageError" class="error-msg"></span>
+                    <span id="ageWarning" class="warning-msg hidden">⚠️ Minor account detected. Parental consent advised.</span>
+                </div>
+
+                <div class="btn-group">
+                    <button type="button" class="btn btn-secondary" onclick="WizardApp.navigateTo('screen-step1')">Back</button>
+                    <button type="button" id="step2NextBtn" class="btn btn-primary" disabled onclick="WizardApp.navigateTo('screen-step3')">Next</button>
+                </div>
+            </div>
+
+            <!-- STEP 3: PREFERENCES & DYNAMIC CROSS-FIELD DEPENDENCY -->
+            <div id="screen-step3" class="wizard-screen">
+                <h2>Preferences & Location</h2>
+                <p class="subtitle">Step 3 of 4: Customize your profile.</p>
+
+                <div class="form-control">
+                    <label for="pronouns">Pronouns</label>
+                    <select id="pronouns">
+                        <option value="">Select Pronouns</option>
+                        <option value="He/Him">He/Him</option>
+                        <option value="She/Her">She/Her</option>
+                        <option value="They/Them">They/Them</option>
+                        <option value="Prefer not to say">Prefer not to say</option>
+                    </select>
+                </div>
+
+                <div class="form-control">
+                    <label for="stateSelect">State / Region</label>
+                    <select id="stateSelect" onchange="WizardApp.handleStateChange()">
+                        <option value="">Select State</option>
+                        <option value="Delhi">Delhi NCR</option>
+                        <option value="Maharashtra">Maharashtra</option>
+                        <option value="Karnataka">Karnataka</option>
+                    </select>
+                </div>
+
+                <div class="form-control">
+                    <label for="citySelect">City</label>
+                    <select id="citySelect" disabled>
+                        <option value="">Select State First</option>
+                    </select>
+                </div>
+
+                <div class="btn-group">
+                    <button type="button" class="btn btn-secondary" onclick="WizardApp.navigateTo('screen-step2')">Back</button>
+                    <button type="button" class="btn btn-primary" onclick="WizardApp.prepareReview()">Review</button>
+                </div>
+            </div>
+
+            <!-- STEP 4: REVIEW & LOADING STATE SUBMISSION -->
+            <div id="screen-step4" class="wizard-screen">
+                <h2>Review Summary</h2>
+                <p class="subtitle">Step 4 of 4: Confirm your details.</p>
+
+                <div id="summaryCard" class="summary-box">
+                    <!-- Dynamic state injection -->
+                </div>
+
+                <div class="btn-group">
+                    <button type="button" class="btn btn-secondary" onclick="WizardApp.navigateTo('screen-step3')">Back</button>
+                    <button type="button" id="submitBtn" class="btn btn-primary" onclick="WizardApp.submitForm()">
+                        <span id="submitText">Complete Signup</span>
+                        <span id="spinner" class="spinner hidden"></span>
+                    </button>
+                </div>
+            </div>
+
+            <!-- SUCCESS CONFIRMATION SCREEN -->
+            <div id="screen-success" class="wizard-screen text-center">
+                <div class="success-icon" aria-hidden="true">🎉</div>
+                <h2>You're All Set!</h2>
+                <p class="subtitle">Your profile has been registered successfully.</p>
+                <button type="button" class="btn btn-primary" onclick="location.reload()">Start Over</button>
+            </div>
+
+        </section>
+    </main>
+
+    <script src="../JS/script.js"></script>
+</body>
+</html>
