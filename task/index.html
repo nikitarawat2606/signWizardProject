@@ -3,37 +3,50 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Signup Wizard | Frontend Engineering Assessment</title>
+    <title>NexusAuth | Dynamic Onboarding Experience</title>
+    <!-- Google Fonts for Modern Typography -->
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="../CSS/styles.css">
 </head>
 <body>
+
+    <!-- DYNAMIC ANIMATED BACKGROUND CANVAS / MESH LAYER -->
+    <div class="bg-gradient-mesh">
+        <div class="orb orb-1"></div>
+        <div class="orb orb-2"></div>
+        <div class="orb orb-3"></div>
+        <div class="grid-overlay"></div>
+    </div>
 
     <main class="app-viewport">
         <!-- Global Toast / Banner Notification Layer -->
         <aside id="toastBanner" class="toast-banner hidden" role="alert" aria-live="polite"></aside>
 
-        <!-- Container Card mimicking Mobile App / Modern Web View -->
+        <!-- Container Card with Enhanced Glassmorphism & Neon Glow -->
         <section class="wizard-card">
             
             <!-- STEP 0: LANDING / WELCOME -->
             <div id="screen-welcome" class="wizard-screen active">
-                <div class="brand-badge">Enterprise Auth</div>
-                <h1>Get Started</h1>
-                <p class="subtitle">Secure, fast, and seamless multi-step onboarding experience.</p>
-                <button type="button" class="btn btn-primary" onclick="WizardApp.navigateTo('screen-terms')">
-                    Get Started ➔
+                <div class="brand-badge">
+                    <span class="pulse-dot"></span> Secure Onboarding
+                </div>
+                <h1>Welcome to Nexus</h1>
+                <p class="subtitle">Experience the next generation of secure, dynamic authentication.</p>
+                <button type="button" class="btn btn-primary btn-glow" onclick="WizardApp.navigateTo('screen-terms')">
+                    Get Started <span>&rarr;</span>
                 </button>
             </div>
 
             <!-- STEP 0.5: TERMS & CONDITIONS -->
             <div id="screen-terms" class="wizard-screen">
+                <div class="step-indicator">Step 0.5 of 4</div>
                 <h2>Terms & Conditions</h2>
-                <p class="subtitle">Please review our usage agreement.</p>
+                <p class="subtitle">Please review our usage agreement to continue.</p>
                 
                 <div class="terms-container" tabindex="0">
-                    <p><strong>1. Data Protection:</strong> We encrypt and secure your data under industrial compliance protocols.</p>
-                    <p><strong>2. Account Security:</strong> You are responsible for keeping your credentials confidential.</p>
-                    <p><strong>3. Age & Compliance:</strong> Accurate profile data is mandatory. Users under 18 must have supervisory consent.</p>
+                    <p><strong>1. Data Protection:</strong> We encrypt and secure your data under strict industrial compliance protocols.</p>
+                    <p><strong>2. Account Security:</strong> You are responsible for keeping your login credentials confidential.</p>
+                    <p><strong>3. Age & Compliance:</strong> Accurate profile data is mandatory. Users under 18 require parental review.</p>
                 </div>
 
                 <div class="checkbox-wrapper">
@@ -49,8 +62,9 @@
 
             <!-- STEP 1: CREDENTIALS (EMAIL & PASSWORD) -->
             <div id="screen-step1" class="wizard-screen">
+                <div class="step-indicator">Step 1 of 4</div>
                 <h2>Account Credentials</h2>
-                <p class="subtitle">Step 1 of 4: Setup your login details.</p>
+                <p class="subtitle">Setup your secure login details.</p>
 
                 <div class="form-control">
                     <label for="email">Email Address</label>
@@ -70,10 +84,11 @@
                 </div>
             </div>
 
-            <!-- STEP 2: PROFILE DETAILS & AGE VALIDATION EDGE-CASE -->
+            <!-- STEP 2: PROFILE DETAILS & AGE VALIDATION -->
             <div id="screen-step2" class="wizard-screen">
+                <div class="step-indicator">Step 2 of 4</div>
                 <h2>Personal Information</h2>
-                <p class="subtitle">Step 2 of 4: Tell us who you are.</p>
+                <p class="subtitle">Tell us a bit about yourself.</p>
 
                 <div class="form-control">
                     <label for="fullName">Full Name</label>
@@ -85,7 +100,7 @@
                     <label for="age">Age</label>
                     <input type="number" id="age" placeholder="Enter your age" min="1" max="120" oninput="WizardApp.validateStep2()">
                     <span id="ageError" class="error-msg"></span>
-                    <span id="ageWarning" class="warning-msg hidden">⚠️ Minor account detected. Parental consent advised.</span>
+                    <span id="ageWarning" class="warning-msg hidden">⚠️ Minor account detected. Parental guidance advised.</span>
                 </div>
 
                 <div class="btn-group">
@@ -94,10 +109,11 @@
                 </div>
             </div>
 
-            <!-- STEP 3: PREFERENCES & DYNAMIC CROSS-FIELD DEPENDENCY -->
+            <!-- STEP 3: PREFERENCES & DYNAMIC DEPENDENCY -->
             <div id="screen-step3" class="wizard-screen">
+                <div class="step-indicator">Step 3 of 4</div>
                 <h2>Preferences & Location</h2>
-                <p class="subtitle">Step 3 of 4: Customize your profile.</p>
+                <p class="subtitle">Customize your regional details.</p>
 
                 <div class="form-control">
                     <label for="pronouns">Pronouns</label>
@@ -133,18 +149,19 @@
                 </div>
             </div>
 
-            <!-- STEP 4: REVIEW & LOADING STATE SUBMISSION -->
+            <!-- STEP 4: REVIEW & SUBMISSION -->
             <div id="screen-step4" class="wizard-screen">
+                <div class="step-indicator">Step 4 of 4</div>
                 <h2>Review Summary</h2>
-                <p class="subtitle">Step 4 of 4: Confirm your details.</p>
+                <p class="subtitle">Confirm your registration details.</p>
 
                 <div id="summaryCard" class="summary-box">
-                    <!-- Dynamic state injection -->
+                    <!-- Dynamic summary data inserted here -->
                 </div>
 
                 <div class="btn-group">
                     <button type="button" class="btn btn-secondary" onclick="WizardApp.navigateTo('screen-step3')">Back</button>
-                    <button type="button" id="submitBtn" class="btn btn-primary" onclick="WizardApp.submitForm()">
+                    <button type="button" id="submitBtn" class="btn btn-primary btn-glow" onclick="WizardApp.submitForm()">
                         <span id="submitText">Complete Signup</span>
                         <span id="spinner" class="spinner hidden"></span>
                     </button>
@@ -155,8 +172,8 @@
             <div id="screen-success" class="wizard-screen text-center">
                 <div class="success-icon" aria-hidden="true">🎉</div>
                 <h2>You're All Set!</h2>
-                <p class="subtitle">Your profile has been registered successfully.</p>
-                <button type="button" class="btn btn-primary" onclick="location.reload()">Start Over</button>
+                <p class="subtitle">Your account has been successfully verified and registered.</p>
+                <button type="button" class="btn btn-primary btn-glow" onclick="location.reload()">Start Over</button>
             </div>
 
         </section>
